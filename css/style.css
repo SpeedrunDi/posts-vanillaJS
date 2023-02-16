@@ -1,0 +1,183 @@
+.container {
+    max-width: 900px;
+    margin:  0 auto;
+    padding: 0 30px;
+    background: rgb(190, 190, 190);
+}
+
+.form-block {
+    padding: 20px 0 20px;
+}
+
+.user-information {
+    display: flex;
+    margin: auto 0;
+    justify-content: space-between;
+}
+
+.subscribe {
+    margin-top: 10px;
+    padding: 4px 5px 5px;
+}
+
+.li {
+    min-width: 320px;
+    padding: 5px 10px;
+    border-bottom: 1px solid rgb(180, 180, 180);
+}
+
+.li:last-child {
+    border: none;
+}
+
+.btn-add {
+    height: 35px;
+    padding: 0 10px;
+    margin-top: 10px;
+}
+
+.user-name {
+    font-size: 32px;
+}
+
+.edit-prof {
+    cursor: pointer;
+    font-size: 22px;
+    padding: 2px 5px;
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+
+.modal-show {
+    display: block;
+    opacity: 1 !important;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.position-modal {
+    margin-top: 15%;
+}
+
+.input-block {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.edit-user-name {
+    margin: 0 auto 20px;
+}
+
+.entry-field {
+    display: flex;
+}
+
+.textarea {
+    flex-grow: 1;
+    margin-right: 15px;
+    resize: none;
+    padding: 5px 0 0 10px;
+}
+
+.posts-block {
+    padding: 20px 50px;
+}
+
+.post-user-name {
+    margin: 10px 0 0 1rem;
+    font-weight: 700;
+}
+
+.post-text {
+    font-size: 22px;
+}
+
+.loader {
+    color: #ffffff;
+    font-size: 90px;
+    text-indent: -9999em;
+    overflow: hidden;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    margin: 72px auto;
+    position: relative;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+    animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+}
+@-webkit-keyframes load6 {
+    0% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+    5%,
+    95% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+    10%,
+    59% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+    }
+    20% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+    }
+    38% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+    }
+    100% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+}
+@keyframes load6 {
+    0% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+    5%,
+    95% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+    10%,
+    59% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+    }
+    20% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+    }
+    38% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+    }
+    100% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+}
+@-webkit-keyframes round {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes round {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+#preloader {
+    position: fixed;
+    z-index: 999; 
+    top: 0; 
+    left: 0;        
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: block;
+}

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <div class="container">
+        <div class="form-block">
+            <form>
+                <div class="user-information">
+                    
+                </div>
+                <div class="entry-field">
+                    <textarea class="textarea" id="message" placeholder="What's happening?" rows="1"></textarea>
+                    <button type="button" class="btn btn-success" id="btn-send">Send</button>
+                </div>
+            </form>
+        </div>
+        <div class="posts-block">
+
+        </div>
+        <div class="modals">
+            <div class="modal fade modal-change" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog position-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit profile</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-block">
+                                <label class="label" for="new-user-name">First name:</label>
+                                <input type="text" class="edit-user-name" id="new-user-name">
+                            </div>
+                            <div class="input-block">
+                                <label class="label" for="new-last-name">Last name:</label>
+                                <input type="text" class="edit-user-name" id="new-last-name">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal-close">Close</button>
+                            <button type="button" class="btn btn-primary" id="modal-save">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade modal-add" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog position-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel2">Follow user</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-block">
+                                <label for="add-email">E-mail:</label>
+                                <input type="email" class="edit-user-name" id="add-email">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modal-add-close">Close</button>
+                            <button type="button" class="btn btn-primary" id="btn-add-email">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script>
+        const loader = document.getElementById('preloader');
+        const userInfoBlock = document.querySelector('.user-information');
+        const postBlock = document.querySelector('.posts-block');
+        const message = document.getElementById('message');
+        const btnSend = document.getElementById('btn-send');
+        const modalsBlock = document.querySelector('.modals');
+        const btnSave = document.getElementById('modal-save');
+        const btnAddEmail = document.getElementById('btn-add-email');
+        const newUserName = document.getElementById('new-user-name');
+        const newLastName = document.getElementById('new-last-name');
+        const email = document.getElementById('add-email');
+
+        const loaderRemove = () => {
+            loader.style.display = 'none';
+        };
+
+        const loaderAdd = () => {
+            loader.style.display = 'block';
+        };
+
+        let data = {
+            dataAccount: [],
+            dataPosts: [],
+            dataSubscribe: [],
+        };
+
+        const baseUrl = 'http://146.185.154.90:8000/blog/akinakun@mail.ru/';
+
+        const closeModal = () => {
+            const myModal = document.getElementById('exampleModal');
+            myModal.classList.remove('modal-show');
+        };
+
+        const closeAddModal = () => {
+            const modalAdd = document.querySelector('.modal-add');
+            modalAdd.classList.remove('modal-show');
+        };
+
+        const setAccount = async url => {
+            loaderAdd();
+            try {
+                const response = await fetch(url + 'profile');
+                const responseJson = await response.json();
+                
+                data.dataAccount = {firstName: responseJson.firstName, lastName: responseJson.lastName};
+            } catch (error) {
+                alert('что то пошло не так');
+                loaderRemove();
+            }
+        };
+
+        const renderMyProfile = () => {
+            const p = document.createElement('p');
+            p.className = 'user-name';
+            p.innerHTML = `
+                ${data.dataAccount.firstName} ${data.dataAccount.lastName} <span class="text-uppercase ms-3 edit-prof" id="btn-edit">edit</span>
+            `;
+
+            userInfoBlock.append(p);
+
+            const btnAdd = document.createElement('button');
+            btnAdd.setAttribute('type', 'button');
+            btnAdd.id = 'btn-add';
+            btnAdd.className = 'btn btn-success btn-add';
+            btnAdd.innerText = 'Add follow';
+
+            userInfoBlock.append(btnAdd);
+
+            const listBlock = document.createElement('div');
+            listBlock.className = 'dropdown';
+            listBlock.innerHTML = `
+                <button class="btn btn-secondary dropdown-toggle subscribe" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    subscriptions
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="list">
+                    
+                </ul>
+            `;
+
+            data.dataSubscribe.forEach(user => {
+                const li = document.createElement('li');
+                li.className = 'li';
+                li.innerHTML = `Name: ${user.firstName} ${user.lastName} <br> Email: ${user.email}`;
+
+                listBlock.querySelector('#list').append(li);
+            });
+
+            userInfoBlock.append(listBlock);
+            loaderRemove();
+        };
+
+        const renderPosts = () => {
+            data.dataPosts.forEach(dataPost => {
+                const card = document.createElement('div');
+
+                card.innerHTML = `
+                    <div class="card mb-3">
+                        <span class="post-user-name">${dataPost.firstName} ${dataPost.lastName} said:</span>
+                        <div class="card-body">
+                            <p class="card-text post-text">${dataPost.message}</p>
+                        </div>
+                        <span class="post-user-name">${dataPost.date}</span>
+                    </div>
+                `;
+
+                postBlock.prepend(card); 
+            });
+        };
+
+        const getPosts = async url => {
+            loaderAdd();
+            try {
+                const response = await fetch(url);
+                const responseJson = await response.json();
+
+                let dataArray = [];
+                let end = 20;
+                for (let i = responseJson.length; i > 0; i--) {
+                    let j = i - 1
+                    dataArray.push(
+                        {
+                            firstName: responseJson[j].user && responseJson[j].user.firstName,
+                            lastName: responseJson[j].user && responseJson[j].user.lastName,
+                            message: responseJson[j].message,
+                            date: responseJson[j].datetime
+                        }
+                    );
+                    end--;
+                    if (end === 0) {
+                      break;
+                    }
+                }
+
+                data.dataPosts = dataArray.reverse();
+
+                loaderRemove();
+            } catch (error) {
+                alert('что-то пошло не так!');
+                loaderRemove();
+            }
+        };
+
+        const getPostsInterval = async date => {
+            const response = await fetch(baseUrl + 'posts?datetime=' + date);
+            const responseJson = await response.json();
+
+            if (responseJson.length !== 0) {
+                let dataPosts = [];
+
+                responseJson.forEach(dataPost => {
+                    dataPosts.push({firstName: dataPost.user.firstName, lastName: dataPost.user.lastName, message: dataPost.message, date: dataPost.datetime});
+                });
+
+                data.dataPosts = dataPosts;
+            }
+        };
+
+        const changeProf = () => {
+            const firstName = newUserName.value;
+            const lastName = newLastName.value;
+
+          if (!firstName) return
+
+            const body = new URLSearchParams();
+
+            body.append('firstName', firstName);
+            body.append('lastName', lastName);
+            
+            loaderAdd();
+            try {
+                fetch(baseUrl + 'profile', {method: 'POST', body});
+                data.dataAccount = {firstName: firstName, lastName: lastName};
+                loaderRemove();
+            } catch (error) {
+                alert('что-то пошло не так!');
+                loaderRemove();
+            }
+
+            newUserName.value = '';
+            newLastName.value = '';
+        };
+
+        const sendPosts = () => {
+            const userMessage = message.value;
+
+            const body = new URLSearchParams();
+
+            if (!userMessage) return
+
+            body.append('message', userMessage);
+
+            loaderAdd();
+            try {
+                fetch(baseUrl + 'posts', {method: 'POST', body});
+                loaderRemove();
+            } catch (error) {
+                alert('mistake!');
+                loaderRemove();
+            }
+
+            message.value = '';
+        };
+
+        const addFollow = () => {
+            const userEmail = email.value;
+
+            const body = new URLSearchParams();
+
+            body.append('email', userEmail);
+
+            loaderAdd();
+            try {
+                fetch(baseUrl + 'subscribe', {method: 'POST', body});
+                loaderRemove();
+            } catch (error) {
+                alert('mistake!');
+                loaderRemove();
+            }
+
+            email.value = '';
+        };
+
+        const getSubscribe = async () => {
+            try {
+                const response = await fetch(baseUrl + 'subscribe');
+                const responseJson = await response.json();
+
+                if (responseJson.length !== 0) {
+                    let dataArray = [];
+                    responseJson.forEach(dataUser => {
+                        dataArray.push({email: dataUser.email, firstName: dataUser.firstName, lastName: dataUser.lastName});
+                    });
+
+                    data.dataSubscribe = dataArray;
+                }
+            } catch (error) {
+                alert('error');
+            }
+        };
+
+        const run = async () => {
+            await setAccount(baseUrl);
+            await getSubscribe();
+            renderMyProfile();
+            
+            await getPosts(baseUrl + 'posts');
+            renderPosts();
+            
+            let lastTime = data.dataPosts.pop();
+
+            setInterval(async () => {
+                if (lastTime) {
+                    data.dataPosts = [];
+
+                    await getPostsInterval(lastTime.date);
+                    
+                    if (data.dataPosts.length !== 0) {
+                        renderPosts();
+
+                        lastTime = data.dataPosts.pop();
+                    }
+                }   
+            }, 3000);
+        };
+
+        run();
+
+        userInfoBlock.addEventListener('click', e => {
+            const btnId = e.target.id;
+            if (btnId === 'btn-edit') {
+                const myModal = document.querySelector('.modal-change');
+                myModal.classList.add('modal-show');
+            } else if (btnId === 'btn-add') {
+                const addModal = document.querySelector('.modal-add');
+                addModal.classList.add('modal-show');
+            }
+        });
+
+        modalsBlock.addEventListener('click', e => {
+            const modalId = e.target.id;
+            if (modalId === 'modal-close') {
+                closeModal();
+            } else if (modalId === 'modal-add-close') {
+                closeAddModal();
+            }
+        });
+
+        btnSave.addEventListener('click', () => {
+            const oldName = data.dataAccount.firstName;
+            const oldLastName = data.dataAccount.lastName;
+
+            changeProf();
+
+            const userName = document.querySelector('.user-name');
+            userName.innerHTML = `${data.dataAccount.firstName} ${data.dataAccount.lastName} <span class="text-uppercase ms-3 edit-prof" id="btn-edit">edit</span>`;
+
+            const postsUserName = document.querySelectorAll('.post-user-name');
+
+            if (postsUserName.length !== 0) {
+                postsUserName.forEach(postUserName => {
+                    if (postUserName.textContent === `${oldName} ${oldLastName} said:`) {
+                        postUserName.innerHTML = `${data.dataAccount.firstName} ${data.dataAccount.lastName}:`;
+                    }
+                });
+            }
+            closeModal();
+        });
+
+        btnSend.addEventListener('click', () => {
+            sendPosts();
+        });
+
+        btnAddEmail.addEventListener('click', () => {
+            addFollow();
+
+            closeAddModal();
+        });
+    </script>
+</body>
+</html>
